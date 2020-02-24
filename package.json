@@ -1,0 +1,23 @@
+{
+  "name": "sunny-side-socket",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/duerdod/sunny-side-socket.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/duerdod/sunny-side-socket/issues"
+  },
+  "homepage": "https://github.com/duerdod/sunny-side-socket#readme"
+}
