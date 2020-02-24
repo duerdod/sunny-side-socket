@@ -1,42 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import io from 'socket.io-client';
-import './App.css';
+import * as React from 'react';
+import styled from 'styled-components';
+import { Connectees } from './components/Connectees';
 
-const ENDPOINT = 'http://localhost:4000';
-const socket = io(ENDPOINT);
-
-interface Connections {
-  connections: number;
-}
+const AppContainer = styled.main`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+`;
 
 function App() {
-  const [connected, setConnected] = useState(0);
-
-  useEffect(() => {
-    socket.on('init', ({ connections }: Connections) => {
-      setConnected(connections);
-    });
-
-    socket.on('destroy', ({ connections }: Connections) => {
-      setConnected(connections);
-    });
-
-    return () => {
-      if (socket) {
-        socket.disconnect();
-      }
-    };
-  }, []);
-
   return (
-    <div className="App">
-      <Connectees connections={connected} />
-    </div>
+    <AppContainer>
+      <Connectees />
+    </AppContainer>
   );
-}
-
-function Connectees({ connections }: Connections) {
-  return <h1>{connections}</h1>;
 }
 
 export default App;
