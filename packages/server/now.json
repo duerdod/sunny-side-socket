@@ -1,9 +1,7 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "*.js",
-      "use": "@now/node-server"
-    }
-  ]
+  "name": "sunnysidesocketserver",
+  "builds": [{ "src": "packages/server/index.js", "use": "@now/node" }],
+  "routes": [{ "src": "/(.*)", "dest": "/packages/server/$1" }],
+  "regions": ["gru1"],
+  "version": 2
 }
