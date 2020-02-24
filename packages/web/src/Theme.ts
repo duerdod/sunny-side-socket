@@ -1,6 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
 
-export const theme = {}
+export const theme = {
+  background: '#21bf73;'
+}
 
 export const GlobalStyle = createGlobalStyle`
   * {
@@ -14,6 +16,10 @@ export const GlobalStyle = createGlobalStyle`
   html {
     font-size: 16px;
     overflow-x: hidden;
+  }
+
+  body {
+    
   }
 
   #root {

@@ -4,7 +4,7 @@ import * as socket from 'socket.io'
 import * as path from 'path'
 
 const PORT = 4000
-const FILE = path.join(__dirname, '../../web/public/index.html')
+const WEB_ROOT = path.join(__dirname, '../../web')
 
 function log(type: string) {
     const today = new Date()
@@ -20,7 +20,8 @@ async function startServer() {
     const io = socket(server);
     let connections = 0;
 
-    app.get('/', (_, res) => res.sendFile(FILE))
+    app.use(express.static(path.join(WEB_ROOT, 'build')));
+    app.get('/', (_, res) => res.sendFile(WEB_ROOT))
 
     io.on('connection', socket => {
         log('CONNECTED')

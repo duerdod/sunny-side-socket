@@ -4,7 +4,7 @@
     "target": "es6",
     "lib": ["es6", "dom"],
     "moduleResolution": "node",
-    "rootDir": "./",
+    "rootDir": "./dist",
     "sourceMap": true,
     "allowJs": true,
     "noImplicitAny": true,
@@ -17,5 +17,6 @@
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
-  }
+  },
+  "exclude": ["node_modules", "../../node_modules/"]
 }

@@ -8,11 +8,11 @@ const PersonContainer = styled.div`
 `;
 
 const Person = styled(animated.h1)`
-  font-size: 4rem;
-  font-family: 'Arial Black';
+  font-size: 22rem;
+  font-family: 'Arial Black', sans-serif;
   font-weight: 900;
   text-align: center;
-  position: absolute;
+  color: #b0eacd;
 `;
 
 export const Connectees = () => {
@@ -22,7 +22,11 @@ export const Connectees = () => {
     unique: true,
     from: { transform: 'translate3d(0,100px,0)' },
     enter: { transform: 'translate3d(0,0,0)' },
-    leave: { transform: 'translate3d(0,100px,0)', opacity: 0 },
+    leave: {
+      transform: 'translate3d(0,100px,0)',
+      opacity: 0,
+      position: 'absolute'
+    },
     config: { duration: 125 }
   });
 

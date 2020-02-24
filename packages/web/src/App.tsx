@@ -9,6 +9,7 @@ const AppContainer = styled.main`
   height: 100%;
   width: 100%;
   overflow: hidden;
+  background: ${p => p.theme.background};
 `;
 
 function App() {

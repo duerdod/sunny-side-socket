@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 interface SocketState {
-  connections: number;
+  // To prevent the 0 flickering. It is actually a number.
+  connections: number | string;
 }
 
 type Action = {
@@ -20,7 +21,7 @@ export const SocketStateDispatch = React.createContext<
 >(undefined);
 
 const initSocketState = {
-  connections: 0
+  connections: ''
 };
 
 function socketReducer(state: SocketState, action: Action): SocketState {
