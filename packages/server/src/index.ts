@@ -1,8 +1,10 @@
 import * as express from 'express'
 import * as http from 'http'
 import * as socket from 'socket.io'
+import * as path from 'path'
 
 const PORT = 4000
+const FILE = path.join(__dirname, '../../web/public/index.html')
 
 function log(type: string) {
     const today = new Date()
@@ -16,8 +18,10 @@ async function startServer() {
     const app = express();
     const server = new http.Server(app);
     const io = socket(server);
+    let connections = 0;
 
-    let connections = 0
+    app.get('/', (_, res) => res.sendFile(FILE))
+
     io.on('connection', socket => {
         log('CONNECTED')
         connections++
