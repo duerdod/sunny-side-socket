@@ -6,9 +6,7 @@
   "scripts": {
     "build": "cd packages/web/ && yarn build && cd .. && cd server && yarn build"
   },
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": ["packages/*"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/duerdod/sunny-side-socket.git"

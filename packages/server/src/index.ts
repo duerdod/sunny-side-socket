@@ -2,17 +2,14 @@ import * as express from 'express'
 import * as http from 'http'
 import * as socket from 'socket.io'
 import * as path from 'path'
+import * as dotenv from 'dotenv'
+import { log } from './utils/log'
 
-const PORT = 4000
+dotenv.config()
+
+const PORT = process.env.PORT || 4000
 const WEB_ROOT = path.join(__dirname, '../../web')
-
-function log(type: string) {
-    const today = new Date()
-    const seconds = today.getSeconds() < 10 ? `0${today.getSeconds()}` : today.getSeconds()
-    const minutes = today.getMinutes() < 10 ? `0${today.getMinutes()}` : today.getMinutes()
-    const hours = today.getHours() < 10 ? `0${today.getHours()}` : today.getHours()
-    console.log(`${hours}:${minutes}:${seconds}, ${type}`)
-}
+const ENV = 'production'
 
 async function startServer() {
     const app = express();
@@ -20,7 +17,9 @@ async function startServer() {
     const io = socket(server);
     let connections = 0;
 
-    app.use(express.static(path.join(WEB_ROOT, 'build')));
+    if (process.env.NODE_ENV === ENV) {
+        app.use(express.static(path.join(WEB_ROOT, 'build')));
+    }
     app.get('/', (_, res) => res.sendFile(WEB_ROOT))
 
     io.on('connection', socket => {

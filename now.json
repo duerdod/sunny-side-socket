@@ -1,7 +1,8 @@
 {
   "name": "sunnysidesocketserver",
-  "builds": [{ "src": "packages/server/index.js", "use": "@now/node" }],
-  "routes": [{ "src": "/(.*)", "dest": "/packages/server/$1" }],
-  "regions": ["gru1"],
+  "builds": [
+    { "src": "packages/server/src/*.js", "use": "@now/node" },
+    { "src": "packages/web/package.json", "use": "@now/static-build" }
+  ],
   "version": 2
 }
