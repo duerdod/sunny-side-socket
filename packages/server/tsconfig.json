@@ -16,7 +16,8 @@
     "suppressImplicitAnyIndexErrors": true,
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "preserveSymlinks": true
   },
   "exclude": ["node_modules", "../../node_modules/"]
 }
