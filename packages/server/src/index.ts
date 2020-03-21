@@ -17,6 +17,8 @@ async function startServer() {
     const io = socket(server);
     let connections = 0;
 
+    console.log(connections)
+
     if (process.env.NODE_ENV === ENV) {
         app.use(express.static(path.join(WEB_ROOT, 'build')));
     }

@@ -1,8 +1,0 @@
-{
-  "name": "sunnysidesocketserver",
-  "builds": [
-    { "src": "packages/server/src/*.js", "use": "@now/node" },
-    { "src": "packages/web/package.json", "use": "@now/static-build" }
-  ],
-  "version": 2
-}
