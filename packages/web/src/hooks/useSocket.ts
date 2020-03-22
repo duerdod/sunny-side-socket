@@ -1,13 +1,13 @@
 import * as React from 'react'
 import io from 'socket.io-client';
 import { useSocketProvider, useSocketState } from '../context/SocketContext'
-
+import { isProduction } from '../utils'
 interface Connections {
     connections: number;
 }
 
-const ENDPOINT = 'https://socketeer.okbry.cool';
-const socket = io(ENDPOINT);
+const ENDPOINT = isProduction() ? process.env.REACT_APP_SOCKET_HOST : process.env.REACT_APP_SOCKET_HOST_DEV;
+const socket = io(ENDPOINT as string);
 
 export function useSocket() {
     const dispatch = useSocketProvider()

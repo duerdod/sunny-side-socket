@@ -11,18 +11,15 @@ const PORT = process.env.PORT || 4000
 async function startServer() {
     const app = express();
     const server = new http.Server(app);
-    const io = socket(server);
-    let connections = 0;
+    const io: socket.Server = socket(server);
 
     io.on('connection', socket => {
-        log('CONNECTED')
-        connections++
-        io.emit('init', { connections })
+        log('CONNECTED', Object.keys(io.sockets.sockets).length)
+        io.emit('init', { connections: Object.keys(io.sockets.sockets).length })
 
         socket.on('disconnect', () => {
-            log('DISCONNECTED')
-            connections--
-            io.emit('destroy', { connections })
+            log('DISCONNECTED', Object.keys(io.sockets.sockets).length)
+            io.emit('destroy', { connections: Object.keys(io.sockets.sockets).length })
         });
     })
 
