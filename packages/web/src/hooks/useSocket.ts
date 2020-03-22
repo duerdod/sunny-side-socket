@@ -6,7 +6,7 @@ interface Connections {
     connections: number;
 }
 
-const ENDPOINT = 'http://134.122.93.118:80';
+const ENDPOINT = 'https://socketeer.okbry.cool';
 const socket = io(ENDPOINT);
 
 export function useSocket() {

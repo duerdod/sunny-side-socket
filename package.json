@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "description": "",
-  "scripts": {
-    "dev": "cd packages/web/ && yarn build && cd .. && cd server && yarn build"
-  },
   "workspaces": [
     "packages/*"
   ],
