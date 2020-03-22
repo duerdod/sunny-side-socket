@@ -6,7 +6,7 @@ interface Connections {
     connections: number;
 }
 
-const ENDPOINT = 'http://localhost:4000';
+const ENDPOINT = 'http://134.122.93.118:80';
 const socket = io(ENDPOINT);
 
 export function useSocket() {
