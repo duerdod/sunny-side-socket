@@ -15,7 +15,6 @@ async function startServer() {
     let connections = 0;
 
     io.on('connection', socket => {
-        console.log({ connections })
         log('CONNECTED')
         connections++
         io.emit('init', { connections })
