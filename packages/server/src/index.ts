@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 4000
 const app = express();
 const server = new http.Server(app);
 const io: socket.Server = socket(server);
+
 io.on('connection', socket => {
     log('CONNECTED', Object.keys(io.sockets.sockets).length)
     io.emit('init', { connections: Object.keys(io.sockets.sockets).length })
@@ -21,7 +22,7 @@ io.on('connection', socket => {
 })
 
 async function startServer() {
-    app.get('*', (req, res) => res.send({ isAwesome: true }))
+    app.get('*', (req: express.Request, res: express.Response) => res.send({ isAwesome: true }))
     server.listen(PORT, () => console.log(`Server started at http://localhost:${PORT}`))
 }
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { animated, useTransition } from 'react-spring';
-import { useSocket } from '../hooks/useSocket';
+import { useSocket } from 'hooks/useSocket';
 
 const PersonContainer = styled.div`
   position: relative;
@@ -20,14 +20,14 @@ export const Connectees = () => {
 
   const transition = useTransition(connections, null, {
     unique: true,
-    from: { transform: 'translate3d(0,100px,0)' },
+    from: { transform: 'translate3d(0,500px,0)' },
     enter: { transform: 'translate3d(0,0,0)' },
     leave: {
-      transform: 'translate3d(0,100px,0)',
+      transform: 'translate3d(0,150px,0)',
       opacity: 0,
       position: 'absolute'
     },
-    config: { duration: 125 }
+    config: { duration: 25 }
   });
 
   return (

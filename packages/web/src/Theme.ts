@@ -19,7 +19,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    
+    background: ${theme.background};
   }
 
   #root {
