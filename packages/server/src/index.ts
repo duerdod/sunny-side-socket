@@ -19,10 +19,15 @@ io.on('connection', socket => {
         log('DISCONNECTED', Object.keys(io.sockets.sockets).length)
         io.emit('destroy', { connections: Object.keys(io.sockets.sockets).length })
     });
+
+    socket.on('NEW_MESSAGE', (message: string) => {
+        io.emit('NEW_MESSAGE', message)
+    })
 })
 
+
 async function startServer() {
-    app.get('*', (req: express.Request, res: express.Response) => res.send({ isAwesome: true }))
+    app.get('*', (req: express.Request, res: express.Response) => res.send({ connections: Object.keys(io.sockets.sockets).length }))
     server.listen(PORT, () => console.log(`Server started at http://localhost:${PORT}`))
 }
 

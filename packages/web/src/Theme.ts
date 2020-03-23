@@ -47,4 +47,19 @@ export const GlobalStyle = createGlobalStyle`
         }
   }
 
+  textarea, select, input {
+    border-radius:0;
+    appearance: none;
+    background-color:#fff;
+    color:#000;
+    outline:0;
+    margin:0;
+    padding:0;
+    text-align: left;
+    font-size:1em;
+    height: 1em;
+    vertical-align: middle;
+    border: none;
+}
+
 `;

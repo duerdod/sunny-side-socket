@@ -3,12 +3,18 @@ import * as React from 'react';
 interface SocketState {
   // To prevent the 0 flickering. It is actually a number.
   connections: number | string;
+  messages: string[];
 }
 
-type Action = {
-  type: 'UPDATE CONNECTIONS';
-  payload: { connections: number };
-};
+type Action =
+  | {
+      type: 'UPDATE CONNECTIONS';
+      payload: { connections: number };
+    }
+  | {
+      type: 'NEW_MESSAGE';
+      payload: { message: string };
+    };
 
 type SocketDispatch = (action: Action) => void;
 
@@ -21,14 +27,22 @@ export const SocketStateDispatch = React.createContext<
 >(undefined);
 
 const initSocketState = {
-  connections: ''
+  connections: '',
+  messages: []
 };
 
 function socketReducer(state: SocketState, action: Action): SocketState {
   switch (action.type) {
     case 'UPDATE CONNECTIONS': {
       return {
+        ...state,
         connections: action.payload.connections
+      };
+    }
+    case 'NEW_MESSAGE': {
+      return {
+        ...state,
+        messages: [action.payload.message, ...state.messages]
       };
     }
   }

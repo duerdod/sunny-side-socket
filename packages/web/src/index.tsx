@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import App from 'App';
 import { ThemeProvider } from 'styled-components';
-import * as Themeing from './Theme';
-import * as serviceWorker from './serviceWorker';
-import { SocketProvider } from './context/SocketContext';
+import * as Themeing from 'Theme';
+import * as serviceWorker from 'serviceWorker';
+import { SocketProvider } from 'context/SocketContext';
 
 ReactDOM.render(
   <ThemeProvider theme={Themeing.theme}>
