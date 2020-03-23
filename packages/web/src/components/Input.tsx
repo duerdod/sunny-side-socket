@@ -1,7 +1,7 @@
 import { useSocket } from 'hooks/useSocket';
 import * as React from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Form = styled(motion.form)`
   position: absolute;
@@ -19,15 +19,15 @@ const StyledInput = styled.textarea`
 `;
 
 const StyledButton = styled(motion.button)`
-  height: 55px;
-  width: 55px;
+  height: 65px;
+  width: 65px;
   margin: 1rem;
   background: #b0eacd;
   border-radius: 100%;
   position: absolute;
   bottom: 25px;
   right: 25px;
-  font-size: 2rem;
+  font-size: 2.4rem;
 `;
 
 interface ButtonProps {
@@ -39,7 +39,11 @@ const Button = ({ setFormOpen, isFormOpen }: ButtonProps) => {
   return (
     <StyledButton
       type="button"
-      animate={isFormOpen ? { rotate: 360 * 3 } : { rotate: 0 }}
+      animate={
+        isFormOpen
+          ? { rotate: 360 * 3, scale: 1.2, transition: { duration: 0.2 } }
+          : { rotate: 0, scale: 1, transition: { duration: 0.4 } }
+      }
       onClick={() => setFormOpen(!isFormOpen)}
     >
       {isFormOpen ? '-' : '+'}
@@ -60,6 +64,11 @@ export const Input = () => {
     setMessage('');
   }
 
+  function resetForm() {
+    setFormOpen(false);
+    setMessage('');
+  }
+
   React.useEffect(() => {
     textareaRef.current!.addEventListener('keydown', emitOnEnter);
 
@@ -72,13 +81,12 @@ export const Input = () => {
       if (e.key === 'Enter') {
         e.preventDefault();
         emitMessage(message);
-        setMessage('');
+        resetForm();
       }
 
       if (e.key === 'Escape') {
         e.preventDefault();
-        setFormOpen(false);
-        setMessage('');
+        resetForm();
       }
     }
 
@@ -91,20 +99,23 @@ export const Input = () => {
 
   return (
     <div ref={textareaRef}>
-      {isFormOpen && (
-        <Form
-          onSubmit={handleSubmit}
-          animate={{ scaleX: 1.8, scaleY: 1.8, y: -45, x: -83 }}
-        >
-          <StyledInput
-            name="message"
-            cols={18}
-            rows={6}
-            onChange={e => setMessage(e.target.value)}
-            value={message}
-          />
-        </Form>
-      )}
+      <AnimatePresence>
+        {isFormOpen && (
+          <Form
+            onSubmit={handleSubmit}
+            animate={{ scaleX: 1.8, scaleY: 1.8, y: -45, x: -83 }}
+            exit={{ scaleX: 0, scaleY: 0, y: 25, x: 50 }}
+          >
+            <StyledInput
+              name="message"
+              cols={18}
+              rows={6}
+              onChange={e => setMessage(e.target.value)}
+              value={message}
+            />
+          </Form>
+        )}
+      </AnimatePresence>
       <Button {...buttonProps} />
     </div>
   );

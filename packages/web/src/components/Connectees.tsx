@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { animated, useTransition } from 'react-spring';
 import { useSocketState } from 'context/SocketContext';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const PersonContainer = styled.div`
   position: absolute;
@@ -9,7 +9,7 @@ const PersonContainer = styled.div`
   left: 25px;
 `;
 
-const Person = styled(animated.h1)`
+const Person = styled(motion.h2)`
   font-size: 4rem;
   font-family: 'Arial Black', sans-serif;
   font-weight: 900;
@@ -18,26 +18,28 @@ const Person = styled(animated.h1)`
 
 export const Connectees = () => {
   const { connections } = useSocketState();
-
-  const transition = useTransition(connections, null, {
-    unique: true,
-    from: { transform: 'translate3d(0,500px,0)' },
-    enter: { transform: 'translate3d(0,0,0)' },
-    leave: {
-      transform: 'translate3d(0,150px,0)',
-      opacity: 0,
-      position: 'absolute'
-    },
-    config: { duration: 75 }
-  });
-
   return (
     <PersonContainer>
-      {transition.map(({ item, props, key }) => (
-        <Person style={props} key={key}>
-          {item}
+      <AnimatePresence>
+        <Person
+          key={`${connections}-${connections}`}
+          positionTransition
+          animate={{ opacity: 1, y: -10, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.5 }}
+        >
+          {connections}
         </Person>
-      ))}
+      </AnimatePresence>
     </PersonContainer>
   );
 };
+
+/*
+
+    <PersonContainer>
+      <Person animate={{ y: 0 }} initial={{ y: -200 }}>
+        {connections}
+      </Person>
+    </PersonContainer>
+
+*/
