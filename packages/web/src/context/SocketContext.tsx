@@ -8,7 +8,7 @@ interface SocketState {
 
 type Action =
   | {
-      type: 'UPDATE CONNECTIONS';
+      type: 'UPDATE_CONNECTIONS';
       payload: { connections: number };
     }
   | {
@@ -33,7 +33,7 @@ const initSocketState = {
 
 function socketReducer(state: SocketState, action: Action): SocketState {
   switch (action.type) {
-    case 'UPDATE CONNECTIONS': {
+    case 'UPDATE_CONNECTIONS': {
       return {
         ...state,
         connections: action.payload.connections

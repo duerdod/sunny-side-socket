@@ -1,10 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { animated, useTransition } from 'react-spring';
-import { useSocketConnection } from 'hooks/useSocketConnection';
+import { useSocketState } from 'context/SocketContext';
 
 const PersonContainer = styled.div`
-  position: relative;
+  position: absolute;
+  bottom: 25px;
+  left: 25px;
 `;
 
 const Person = styled(animated.h1)`
@@ -15,7 +17,7 @@ const Person = styled(animated.h1)`
 `;
 
 export const Connectees = () => {
-  const { connections } = useSocketConnection();
+  const { connections } = useSocketState();
 
   const transition = useTransition(connections, null, {
     unique: true,

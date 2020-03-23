@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 const MaxWidth = styled.main`
+  position: relative;
   max-width: 80rem;
   padding: 1rem;
   display: flex;

@@ -1,43 +1,111 @@
+import { useSocket } from 'hooks/useSocket';
 import * as React from 'react';
 import styled from 'styled-components';
-import { useSocketMessage } from 'hooks/useSocketMessage';
-import { useSocketConnection } from 'hooks/useSocketConnection';
-import { useSocketProvider } from 'context/SocketContext';
-import { useSocket } from 'hooks/useSocket';
+import { motion } from 'framer-motion';
 
-const Form = styled.form`
-  button {
-    margin-left: 1rem;
-    background: red;
-    padding: 1.2rem 1rem;
-  }
+const Form = styled(motion.form)`
+  position: absolute;
+  bottom: 55px;
+  right: 55px;
 `;
 
 const StyledInput = styled.textarea`
-  height: 4rem;
+  padding: 0.2rem 0.2rem;
+  width: 100%;
+  height: 100%;
+  border-radius: 1%;
+  background: #f9f9f9;
+  font-size: 1rem;
 `;
+
+const StyledButton = styled(motion.button)`
+  height: 55px;
+  width: 55px;
+  margin: 1rem;
+  background: #b0eacd;
+  border-radius: 100%;
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+  font-size: 2rem;
+`;
+
+interface ButtonProps {
+  setFormOpen: (state: boolean) => void;
+  isFormOpen: boolean;
+}
+
+const Button = ({ setFormOpen, isFormOpen }: ButtonProps) => {
+  return (
+    <StyledButton
+      type="button"
+      animate={isFormOpen ? { rotate: 360 * 3 } : { rotate: 0 }}
+      onClick={() => setFormOpen(!isFormOpen)}
+    >
+      {isFormOpen ? '-' : '+'}
+    </StyledButton>
+  );
+};
+
+const textareaRef = React.createRef<HTMLDivElement>();
 
 export const Input = () => {
   const [message, setMessage] = React.useState('');
-  const socket = useSocket();
+  const [isFormOpen, setFormOpen] = React.useState(false);
+  const { emitMessage } = useSocket();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    socket.emit('NEW_MESSAGE', message);
+    emitMessage(message);
     setMessage('');
   }
 
+  React.useEffect(() => {
+    textareaRef.current!.addEventListener('keydown', emitOnEnter);
+
+    if (isFormOpen) {
+      textareaRef.current?.querySelector('textarea')?.focus();
+    }
+
+    // TODO
+    function emitOnEnter(e: any) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        emitMessage(message);
+        setMessage('');
+      }
+
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        setFormOpen(false);
+        setMessage('');
+      }
+    }
+
+    return () => {
+      textareaRef.current!.removeEventListener('keydown', emitOnEnter);
+    };
+  }, [isFormOpen, message, emitMessage]);
+
+  const buttonProps = { setFormOpen, isFormOpen };
+
   return (
-    <div>
-      <Form onSubmit={handleSubmit}>
-        <StyledInput
-          maxLength={140}
-          name="message"
-          onChange={e => setMessage(e.target.value)}
-          value={message}
-        />
-        <button type="submit">Send</button>
-      </Form>
+    <div ref={textareaRef}>
+      {isFormOpen && (
+        <Form
+          onSubmit={handleSubmit}
+          animate={{ scaleX: 1.8, scaleY: 1.8, y: -45, x: -83 }}
+        >
+          <StyledInput
+            name="message"
+            cols={18}
+            rows={6}
+            onChange={e => setMessage(e.target.value)}
+            value={message}
+          />
+        </Form>
+      )}
+      <Button {...buttonProps} />
     </div>
   );
 };
