@@ -1,9 +1,17 @@
 import * as React from 'react';
 
+export interface Message {
+  text: string;
+  initialPosition: {
+    x: number;
+    y: number;
+  };
+}
+
 interface SocketState {
   // To prevent the 0 flickering. It is actually a number.
   connections: number | string;
-  messages: string[];
+  messages: Message[];
 }
 
 type Action =
@@ -13,7 +21,7 @@ type Action =
     }
   | {
       type: 'NEW_MESSAGE';
-      payload: { message: string };
+      payload: { message: Message };
     };
 
 type SocketDispatch = (action: Action) => void;
@@ -42,7 +50,7 @@ function socketReducer(state: SocketState, action: Action): SocketState {
     case 'NEW_MESSAGE': {
       return {
         ...state,
-        messages: [action.payload.message, ...state.messages]
+        messages: [{ ...action.payload.message }, ...state.messages]
       };
     }
   }

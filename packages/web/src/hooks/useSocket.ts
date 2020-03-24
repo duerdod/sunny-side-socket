@@ -1,6 +1,6 @@
 import * as React from 'react'
 import io from 'socket.io-client';
-import { useSocketProvider } from 'context/SocketContext'
+import { useSocketProvider, Message } from 'context/SocketContext'
 import { isProduction } from 'utils'
 
 interface Connections {
@@ -22,7 +22,10 @@ export function useSocket() {
 
     React.useEffect(() => {
         // Init socket events
-        socket.on('NEW_MESSAGE', (message: string) => dispatch({ type: 'NEW_MESSAGE', payload: { message } }))
+        socket.on('NEW_MESSAGE', (message: Message) => {
+            dispatch({ type: 'NEW_MESSAGE', payload: { message } })
+        })
+
         socket.on('init', ({ connections }: Connections) => updateConnectionCount(connections));
         socket.on('destroy', ({ connections }: Connections) => updateConnectionCount(connections));
 

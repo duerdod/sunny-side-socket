@@ -1,7 +1,12 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const theme = {
-  background: '#21bf73;'
+  background: '#21bf73;',
+  grey: '#faf9fa',
+  purple: '#473cfc',
+  white: '#ffffff',
+  pink: '#ff3366'
+
 }
 
 export const GlobalStyle = createGlobalStyle`
@@ -19,7 +24,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background: ${theme.background};
+    background: ${theme.grey};
   }
 
   #root {

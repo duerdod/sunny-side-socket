@@ -21,7 +21,13 @@ io.on('connection', socket => {
     });
 
     socket.on('NEW_MESSAGE', (message: string) => {
-        io.emit('NEW_MESSAGE', message)
+        io.emit('NEW_MESSAGE', {
+            text: message,
+            initialPosition: {
+                x: Math.floor(Math.random() * Math.floor(80)),
+                y: Math.floor(Math.random() * Math.floor(80))
+            }
+        })
     })
 })
 

@@ -3,34 +3,35 @@ import styled from 'styled-components';
 import { useSocketState } from 'context/SocketContext';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const PersonContainer = styled.div`
-  position: absolute;
-  bottom: 25px;
-  left: 25px;
-`;
-
 const Person = styled(motion.h2)`
   font-size: 4rem;
   font-family: 'Arial Black', sans-serif;
   font-weight: 900;
-  color: #b0eacd;
+  color: ${p => p.theme.pink};
+  grid-area: connected;
 `;
 
 export const Connectees = () => {
   const { connections } = useSocketState();
   return (
-    <PersonContainer>
-      <AnimatePresence>
-        <Person
-          key={`${connections}-${connections}`}
-          positionTransition
-          animate={{ opacity: 1, y: -10, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.5 }}
-        >
-          {connections}
-        </Person>
-      </AnimatePresence>
-    </PersonContainer>
+    <AnimatePresence>
+      <Person
+        key={`${connections}-${connections}`}
+        animate={{
+          opacity: 1,
+          y: 0,
+          scale: 1
+        }}
+        exit={{
+          opacity: 0,
+          y: -50,
+          scale: 0.5
+        }}
+        positionTransition
+      >
+        {connections}
+      </Person>
+    </AnimatePresence>
   );
 };
 
