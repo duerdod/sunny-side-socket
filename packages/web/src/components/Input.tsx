@@ -73,15 +73,17 @@ export const Input = () => {
     setMessage('');
   }
 
+  // TODO: SEP.
   React.useEffect(() => {
-    textareaRef.current!.addEventListener('keydown', emitOnEnter);
+    textareaRef.current!.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('click', handleMouseDown);
 
     if (isFormOpen) {
       textareaRef.current?.querySelector('textarea')?.focus();
     }
 
-    // TODO: types, use hook?
-    function emitOnEnter(e: any) {
+    // TODO: TYPES?!
+    function handleKeyDown(e: any) {
       if (e.key === 'Enter') {
         e.preventDefault();
         sendMessage(message);
@@ -94,10 +96,20 @@ export const Input = () => {
       }
     }
 
+    function handleMouseDown(e: any) {
+      if (
+        document.body.contains(e.target) &&
+        !textareaRef.current?.contains(e.target)
+      ) {
+        setFormOpen(false);
+      }
+    }
+
     return () => {
-      textareaRef.current!.removeEventListener('keydown', emitOnEnter);
+      textareaRef.current!.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('click', handleMouseDown);
     };
-  }, [isFormOpen, message]);
+  }, [isFormOpen, message, sendMessage]);
 
   const buttonProps = { setFormOpen, isFormOpen };
 

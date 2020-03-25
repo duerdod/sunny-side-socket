@@ -12,13 +12,11 @@ const server = new http.Server(app);
 const io: socket.Server = socket(server);
 
 io.on('connection', socket => {
+    // Socket events.
     io.emit('INIT', { connections: handleConnections(io) })
     socket.on('disconnect', () => io.emit('DESTROY', { connections: handleConnections(io) }))
     socket.on('DELETE_MESSAGE', (id: string) => io.emit('DELETE_MESSAGE', id))
-    socket.on('NEW_MESSAGE', (message: string) => {
-        console.log(message)
-        io.emit('NEW_MESSAGE', generateMessage(message))
-    })
+    socket.on('NEW_MESSAGE', (message: string) => io.emit('NEW_MESSAGE', generateMessage(message)))
 })
 
 
