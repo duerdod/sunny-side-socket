@@ -18,9 +18,14 @@ const StyledInput = styled.textarea`
   color: ${p => p.theme.pink};
   font-size: 0.85rem;
   border: 2px solid ${p => p.theme.pink};
-  /* outline-offset: -0.3rem; */
   padding: 0.6rem;
   font-family: Arial, Helvetica, sans-serif;
+  resize: none;
+  font-size: 0.85rem;
+
+  @media screen and (max-width: 40em) {
+    font-size: 16px;
+  }
 `;
 
 const StyledButton = styled(motion.button)`
@@ -33,7 +38,7 @@ const StyledButton = styled(motion.button)`
 `;
 
 interface ButtonProps {
-  setFormOpen: any;
+  setFormOpen: (state: React.SetStateAction<boolean>) => void;
   isFormOpen: boolean;
 }
 
@@ -46,7 +51,10 @@ const Button = ({ setFormOpen, isFormOpen }: ButtonProps) => {
           ? { rotate: 360, scale: 1.2, transition: { duration: 0.2 } }
           : { rotate: 0, scale: 1, transition: { duration: 0.4 } }
       }
-      onClick={() => setFormOpen((state: boolean) => !state)}
+      onClick={e => {
+        e.preventDefault();
+        setFormOpen(state => !state);
+      }}
     >
       {isFormOpen ? '-' : '+'}
     </StyledButton>
@@ -57,9 +65,7 @@ const textareaRef = React.createRef<HTMLDivElement>();
 
 export const Input = () => {
   const [message, setMessage] = React.useState('');
-  const [isFormOpen, setFormOpen] = React.useState(
-    process.env.NODE_ENV === 'development'
-  );
+  const [isFormOpen, setFormOpen] = React.useState(true);
   const { emitMessage } = useSocket();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -80,7 +86,7 @@ export const Input = () => {
       textareaRef.current?.querySelector('textarea')?.focus();
     }
 
-    // TODO
+    // TODO: types, use hook?
     function emitOnEnter(e: any) {
       if (e.key === 'Enter') {
         e.preventDefault();
@@ -107,13 +113,14 @@ export const Input = () => {
         {isFormOpen && (
           <FormWrapper
             animate={{ scaleX: 1.8, scaleY: 1.8, y: -130, x: -270 }}
-            exit={{ scaleX: 0, scaleY: 0, y: -20, x: -15 }}
+            exit={{ scaleX: 0, scaleY: 0, y: -50, x: -100 }}
           >
             <Form onSubmit={handleSubmit}>
               <StyledInput
                 name="message"
                 cols={18}
                 rows={6}
+                maxLength={240}
                 onChange={e => setMessage(e.target.value)}
                 value={message}
               />

@@ -3,9 +3,25 @@ import { createGlobalStyle } from 'styled-components';
 export const theme = {
   background: '#21bf73;',
   grey: '#faf9fa',
-  purple: '#473cfc',
   white: '#ffffff',
-  pink: '#ff3366'
+  pink: '#ff3366',
+  purple: {
+    hex: '#473cfc',
+    tint: [
+      '#5950FC',
+      '#6C63FD',
+      '#7E77FD',
+      '#918AFD',
+      '#A39EFE',
+      '#B5B1FE',
+      '#C8C5FE',
+      '#DAD8FE',
+      '#EDECFF',
+      '#FFFFFF'
+    ]
+  }
+
+
 
 }
 

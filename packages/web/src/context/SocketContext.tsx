@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 export interface Message {
+  id: string;
   text: string;
   initialPosition: {
     x: number;
@@ -23,6 +24,10 @@ type Action =
   | {
       type: 'NEW_MESSAGE';
       payload: { message: Message };
+    }
+  | {
+      type: 'DELETE_MESSAGE';
+      payload: { id: string };
     };
 
 type SocketDispatch = (action: Action) => void;
@@ -48,6 +53,7 @@ function socketReducer(state: SocketState, action: Action): SocketState {
         connections: action.payload.connections
       };
     }
+
     case 'NEW_MESSAGE': {
       const { message } = action.payload;
       return {
@@ -64,6 +70,13 @@ function socketReducer(state: SocketState, action: Action): SocketState {
         ]
       };
     }
+
+    case 'DELETE_MESSAGE':
+      const messages = state.messages.filter(m => action.payload.id !== m.id);
+      return {
+        ...state,
+        messages
+      };
   }
 }
 

@@ -2,7 +2,7 @@ import * as express from 'express'
 import * as http from 'http'
 import * as socket from 'socket.io'
 import * as dotenv from 'dotenv'
-import { log } from './utils/log'
+import { generateMessage, handleConnections } from './utils/log'
 
 dotenv.config()
 
@@ -12,28 +12,15 @@ const server = new http.Server(app);
 const io: socket.Server = socket(server);
 
 io.on('connection', socket => {
-    log('CONNECTED', Object.keys(io.sockets.sockets).length)
-    io.emit('init', { connections: Object.keys(io.sockets.sockets).length })
-
-    socket.on('disconnect', () => {
-        log('DISCONNECTED', Object.keys(io.sockets.sockets).length)
-        io.emit('destroy', { connections: Object.keys(io.sockets.sockets).length })
-    });
-
-    socket.on('NEW_MESSAGE', (message: string) => {
-        io.emit('NEW_MESSAGE', {
-            text: message,
-            initialPosition: {
-                x: Math.floor(Math.random() * Math.floor(80)),
-                y: Math.floor(Math.random() * Math.floor(80))
-            }
-        })
-    })
+    io.emit('INIT', { connections: handleConnections(io) })
+    socket.on('disconnect', () => io.emit('DESTROY', { connections: handleConnections(io) }))
+    socket.on('DELETE_MESSAGE', (id: string) => io.emit('DELETE_MESSAGE', id))
+    socket.on('NEW_MESSAGE', (message: string) => io.emit('NEW_MESSAGE', generateMessage(message)))
 })
 
 
 async function startServer() {
-    app.get('*', (req: express.Request, res: express.Response) => res.send({ connections: Object.keys(io.sockets.sockets).length }))
+    app.get('*', (req: express.Request, res: express.Response) => res.send({ connections: handleConnections(io) }))
     server.listen(PORT, () => console.log(`Server started at http://localhost:${PORT}`))
 }
 
