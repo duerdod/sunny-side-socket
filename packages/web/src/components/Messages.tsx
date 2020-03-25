@@ -2,8 +2,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { useSocketMessage } from 'hooks/useSocketMessage';
 import { motion } from 'framer-motion';
-import { useSocketProvider, Message } from 'context/SocketContext';
-import { useSocket } from 'hooks/useSocket';
+import { Message } from 'context/SocketContext';
+import { socket } from '../App';
 
 interface StyledMessageProps {
   x: number;
@@ -35,7 +35,6 @@ const StyledMessage = styled(motion.li)<StyledMessageProps>`
 `;
 
 export function Messages() {
-  const { deleteMessage } = useSocket();
   const { messages } = useSocketMessage();
   return (
     <MessageContainer>
@@ -47,8 +46,8 @@ export function Messages() {
             animate={{ scale: 1.2 }}
             initial={{ scale: 1 }}
             drag={true}
-            onClick={() => deleteMessage(message.id)}
             {...message.initialPosition}
+            onClick={() => socket.emit('DELETE_MESSAGE', message.id)}
           >
             {message.text}
           </StyledMessage>

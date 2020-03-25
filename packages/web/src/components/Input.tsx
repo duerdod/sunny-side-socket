@@ -1,7 +1,7 @@
-import { useSocket } from 'hooks/useSocket';
 import * as React from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
+import { socket } from '../App';
 
 const FormWrapper = styled(motion.div)`
   position: absolute;
@@ -66,13 +66,6 @@ const textareaRef = React.createRef<HTMLDivElement>();
 export const Input = () => {
   const [message, setMessage] = React.useState('');
   const [isFormOpen, setFormOpen] = React.useState(true);
-  const { emitMessage } = useSocket();
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    emitMessage(message);
-    setMessage('');
-  }
 
   function resetForm() {
     setFormOpen(false);
@@ -90,7 +83,7 @@ export const Input = () => {
     function emitOnEnter(e: any) {
       if (e.key === 'Enter') {
         e.preventDefault();
-        emitMessage(message);
+        socket.emit('NEW_MESSAGE', message);
         resetForm();
       }
 
@@ -103,7 +96,7 @@ export const Input = () => {
     return () => {
       textareaRef.current!.removeEventListener('keydown', emitOnEnter);
     };
-  }, [isFormOpen, message, emitMessage]);
+  }, [isFormOpen, message]);
 
   const buttonProps = { setFormOpen, isFormOpen };
 
@@ -115,7 +108,7 @@ export const Input = () => {
             animate={{ scaleX: 1.8, scaleY: 1.8, y: -130, x: -270 }}
             exit={{ scaleX: 0, scaleY: 0, y: -50, x: -100 }}
           >
-            <Form onSubmit={handleSubmit}>
+            <Form>
               <StyledInput
                 name="message"
                 cols={18}
