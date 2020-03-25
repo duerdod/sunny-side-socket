@@ -3,13 +3,19 @@ import styled from 'styled-components';
 import { useSocketMessage } from 'hooks/useSocketMessage';
 import { motion } from 'framer-motion';
 import { Message, useSocketState } from 'context/SocketContext';
-import { socket } from '../App';
 
 interface StyledMessageProps {
   x: number;
   y: number;
   zIndex: number;
 }
+
+const RemoveMessage = styled.button`
+  position: absolute;
+  top: -2px;
+  right: 2px;
+  color: white;
+`;
 
 const MessageContainer = styled.ul`
   width: 100%;
@@ -27,12 +33,13 @@ const StyledMessage = styled(motion.li)<StyledMessageProps>`
   font-family: Arial, Helvetica, sans-serif;
 
   max-width: 300px;
-  /* min-width: 150px; */
 
   left: ${p => p.x}%;
   top: ${p => p.y}%;
   z-index: ${p => p.zIndex};
 `;
+
+const MessageText = styled.span``;
 
 export function Messages() {
   const { messages } = useSocketState();
@@ -40,17 +47,19 @@ export function Messages() {
   return (
     <MessageContainer>
       {messages.map((message: Message) => {
-        const { x, y } = message.initialPosition;
         return (
           <StyledMessage
-            key={x + y}
+            key={message.id}
             animate={{ scale: 1.2 }}
             initial={{ scale: 1 }}
             drag={true}
-            onClick={() => deleteMessage(message)}
+            onDrag={x => console.log(x)}
             {...message.initialPosition}
           >
-            {message.text}
+            <RemoveMessage onClick={() => deleteMessage(message)}>
+              &times;
+            </RemoveMessage>
+            <MessageText>{message.text}</MessageText>
           </StyledMessage>
         );
       })}

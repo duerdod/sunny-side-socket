@@ -22,6 +22,7 @@ const StyledInput = styled.textarea`
   font-family: Arial, Helvetica, sans-serif;
   resize: none;
   font-size: 0.85rem;
+  z-index: 999;
 
   @media screen and (max-width: 40em) {
     font-size: 16px;

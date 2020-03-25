@@ -23,7 +23,4 @@ export function useSocketEmitters(socket: SocketIOClient.Socket) {
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
-
-    return { hello: true }
 }
