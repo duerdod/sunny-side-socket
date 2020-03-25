@@ -5,6 +5,7 @@ export interface Message {
   initialPosition: {
     x: number;
     y: number;
+    zIndex: number;
   };
 }
 
@@ -48,9 +49,19 @@ function socketReducer(state: SocketState, action: Action): SocketState {
       };
     }
     case 'NEW_MESSAGE': {
+      const { message } = action.payload;
       return {
         ...state,
-        messages: [{ ...action.payload.message }, ...state.messages]
+        messages: [
+          {
+            ...message,
+            initialPosition: {
+              ...message.initialPosition,
+              zIndex: state.messages.length
+            }
+          },
+          ...state.messages
+        ]
       };
     }
   }

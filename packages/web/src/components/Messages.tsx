@@ -1,17 +1,19 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { useSocketMessage } from 'hooks/useSocketMessage';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface StyledMessageProps {
   x: number;
   y: number;
+  zIndex: number;
 }
 
 const MessageContainer = styled.ul`
   width: 100%;
-  height: 90%;
+  height: calc(100% - 100px);
   position: absolute;
+  list-style: none;
 `;
 
 const StyledMessage = styled(motion.li)<StyledMessageProps>`
@@ -24,27 +26,27 @@ const StyledMessage = styled(motion.li)<StyledMessageProps>`
 
   left: ${p => p.x}%;
   top: ${p => p.y}%;
+  z-index: ${p => p.zIndex};
 `;
 
 export function Messages() {
   const { messages } = useSocketMessage();
   return (
     <MessageContainer>
-      <AnimatePresence>
-        {messages.map((message, i) => {
-          const { x, y } = message.initialPosition;
-          return (
-            <StyledMessage
-              key={i}
-              {...message.initialPosition}
-              drag="x"
-              animate={{ scale: 1.2 }}
-            >
-              {message.text}
-            </StyledMessage>
-          );
-        })}
-      </AnimatePresence>
+      {messages.map(message => {
+        const { x, y } = message.initialPosition;
+        return (
+          <StyledMessage
+            key={x + y}
+            animate={{ scale: 1.2 }}
+            initial={{ scale: 1 }}
+            drag="x"
+            {...message.initialPosition}
+          >
+            {message.text}
+          </StyledMessage>
+        );
+      })}
     </MessageContainer>
   );
 }

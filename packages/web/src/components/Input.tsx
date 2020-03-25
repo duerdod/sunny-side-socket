@@ -33,7 +33,7 @@ const StyledButton = styled(motion.button)`
 `;
 
 interface ButtonProps {
-  setFormOpen: (state: boolean) => void;
+  setFormOpen: any;
   isFormOpen: boolean;
 }
 
@@ -46,7 +46,7 @@ const Button = ({ setFormOpen, isFormOpen }: ButtonProps) => {
           ? { rotate: 360, scale: 1.2, transition: { duration: 0.2 } }
           : { rotate: 0, scale: 1, transition: { duration: 0.4 } }
       }
-      onClick={() => setFormOpen(!isFormOpen)}
+      onClick={() => setFormOpen((state: boolean) => !state)}
     >
       {isFormOpen ? '-' : '+'}
     </StyledButton>
@@ -57,7 +57,9 @@ const textareaRef = React.createRef<HTMLDivElement>();
 
 export const Input = () => {
   const [message, setMessage] = React.useState('');
-  const [isFormOpen, setFormOpen] = React.useState(false);
+  const [isFormOpen, setFormOpen] = React.useState(
+    process.env.NODE_ENV === 'development'
+  );
   const { emitMessage } = useSocket();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
