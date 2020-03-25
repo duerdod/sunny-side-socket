@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-import { socket } from '../App';
+import { useSocketMessage } from 'hooks/useSocketMessage';
 
 const FormWrapper = styled(motion.div)`
   position: absolute;
@@ -66,6 +66,7 @@ const textareaRef = React.createRef<HTMLDivElement>();
 export const Input = () => {
   const [message, setMessage] = React.useState('');
   const [isFormOpen, setFormOpen] = React.useState(true);
+  const { sendMessage } = useSocketMessage();
 
   function resetForm() {
     setFormOpen(false);
@@ -83,7 +84,7 @@ export const Input = () => {
     function emitOnEnter(e: any) {
       if (e.key === 'Enter') {
         e.preventDefault();
-        socket.emit('NEW_MESSAGE', message);
+        sendMessage(message);
         resetForm();
       }
 
