@@ -14,10 +14,10 @@ const StyledInput = styled.textarea`
   padding: 0.2rem 0.2rem;
   width: 100%;
   height: 100%;
-  border-radius: 1%;
+  border-radius: 5px;
   color: ${p => p.theme.pink};
   font-size: 0.85rem;
-  outline: 1px solid ${p => p.theme.pink};
+  border: 2px solid ${p => p.theme.pink};
   /* outline-offset: -0.3rem; */
   padding: 0.6rem;
   font-family: Arial, Helvetica, sans-serif;

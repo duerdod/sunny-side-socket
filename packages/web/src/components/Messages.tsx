@@ -23,6 +23,7 @@ const StyledMessage = styled(motion.li)<StyledMessageProps>`
   background: ${p => p.theme.purple};
   color: ${p => p.theme.white};
   font-family: Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
 
   left: ${p => p.x}%;
   top: ${p => p.y}%;

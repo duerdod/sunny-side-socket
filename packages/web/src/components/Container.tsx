@@ -11,6 +11,7 @@ const Container = styled.div`
   align-items: center;
   grid-template-rows: 80px;
   padding: 0 1rem;
+  border-top: 1px solid #f293b8;
   .input-area {
     grid-area: input;
     justify-self: end;
