@@ -18,8 +18,8 @@ export function generateMessage(text: string) {
         id: uuid.v4(),
         text,
         initialPosition: {
-            x: Math.floor(Math.random() * Math.floor(80)),
-            y: Math.floor(Math.random() * Math.floor(80))
+            x: Math.floor(Math.random() * Math.floor(1000)),
+            y: Math.floor(Math.random() * Math.floor(1000))
         }
     }
 }
