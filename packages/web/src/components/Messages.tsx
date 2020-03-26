@@ -5,8 +5,8 @@ import { motion } from 'framer-motion';
 import { Message, useSocketState } from 'context/SocketContext';
 
 interface StyledMessageProps {
-  x: number;
-  y: number;
+  x?: number;
+  y?: number;
   zIndex: number;
 }
 
@@ -32,10 +32,9 @@ const StyledMessage = styled(motion.li)<StyledMessageProps>`
   color: ${p => p.theme.white};
   font-family: Arial, Helvetica, sans-serif;
 
-  max-width: 300px;
+  border-radius: 5px;
 
-  left: ${p => p.x}%;
-  top: ${p => p.y}%;
+  max-width: 300px;
   z-index: ${p => p.zIndex};
 `;
 
@@ -43,17 +42,29 @@ const MessageText = styled.span``;
 
 export function Messages() {
   const { messages } = useSocketState();
-  const { deleteMessage } = useSocketMessage();
+  const { deleteMessage, updateMessagePosition } = useSocketMessage();
+
   return (
     <MessageContainer>
       {messages.map((message: Message) => {
+        const { x, y } = message.initialPosition;
         return (
           <StyledMessage
             key={message.id}
-            animate={{ scale: 1.2 }}
+            animate={{ scale: 1.2, x, y }}
             initial={{ scale: 1 }}
-            drag={true}
-            onDrag={x => console.log(x)}
+            drag
+            onDragEnd={(_, info) => {
+              const { x, y } = info.point;
+              updateMessagePosition({
+                ...message,
+                initialPosition: {
+                  ...message.initialPosition,
+                  x,
+                  y
+                }
+              });
+            }}
             {...message.initialPosition}
           >
             <RemoveMessage onClick={() => deleteMessage(message)}>

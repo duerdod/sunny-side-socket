@@ -28,6 +28,10 @@ type Action =
   | {
       type: 'DELETE_MESSAGE';
       payload: { id: string };
+    }
+  | {
+      type: 'UPDATE_POSITION';
+      payload: { message: Message };
     };
 
 type SocketDispatch = (action: Action) => void;
@@ -68,6 +72,19 @@ function socketReducer(state: SocketState, action: Action): SocketState {
           },
           ...state.messages
         ]
+      };
+    }
+
+    case 'UPDATE_POSITION': {
+      const messages = state.messages.map(message =>
+        message.id === action.payload.message.id
+          ? action.payload.message
+          : { ...message }
+      );
+
+      return {
+        ...state,
+        messages
       };
     }
 

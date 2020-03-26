@@ -10,10 +10,15 @@ export function useSocketEmitters(socket: SocketIOClient.Socket) {
 
     React.useEffect(() => {
         // Init socket events
-        socket.on('NEW_MESSAGE', (message: Message) => dispatch({ type: 'NEW_MESSAGE', payload: { message } }))
-        socket.on('DELETE_MESSAGE', (id: string) => dispatch({ type: 'DELETE_MESSAGE', payload: { id } }))
+
+        // Connections
         socket.on('INIT', ({ connections }: Connections) => dispatch({ type: 'UPDATE_CONNECTIONS', payload: { connections } }))
         socket.on('DESTROY', ({ connections }: Connections) => dispatch({ type: 'UPDATE_CONNECTIONS', payload: { connections } }))
+
+        // Messages
+        socket.on('NEW_MESSAGE', (message: Message) => dispatch({ type: 'NEW_MESSAGE', payload: { message } }))
+        socket.on('DELETE_MESSAGE', (id: string) => dispatch({ type: 'DELETE_MESSAGE', payload: { id } }))
+        socket.on('UPDATE_POSITION', (message: Message) => dispatch({ type: 'UPDATE_POSITION', payload: { message } }))
 
         return () => {
             if (socket) {

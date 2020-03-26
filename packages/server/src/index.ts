@@ -17,6 +17,7 @@ io.on('connection', socket => {
     socket.on('disconnect', () => io.emit('DESTROY', { connections: handleConnections(io) }))
     socket.on('DELETE_MESSAGE', (id: string) => io.emit('DELETE_MESSAGE', id))
     socket.on('NEW_MESSAGE', (message: string) => io.emit('NEW_MESSAGE', generateMessage(message)))
+    socket.on('UPDATE_POSITION', (message: any) => io.emit('UPDATE_POSITION', message))
 })
 
 
