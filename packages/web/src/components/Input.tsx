@@ -119,8 +119,8 @@ export const Input = () => {
       <AnimatePresence>
         {isFormOpen && (
           <FormWrapper
-            animate={{ scaleX: 1.8, scaleY: 1.8, y: -130, x: -270 }}
-            exit={{ scaleX: 0, scaleY: 0, y: -50, x: -100 }}
+            animate={{ y: -120, x: -195 }}
+            exit={{ y: -50, x: -100, scale: 0 }}
           >
             <Form>
               <StyledInput
